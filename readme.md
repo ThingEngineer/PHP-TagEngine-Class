@@ -36,7 +36,8 @@ $tagEngine->setTagLen(4);   // Set the minimum number of characters a tag must h
 <pre>
 <code>
 <?php
-$tagEngine->mapTags(100, 'img', 'tag1,tag2,tag3');		// Create's 3 new tags and maps them to the relative id of 100 with a type of img (Image).
+$tagEngine->mapTags(100, 'img', 'tag1,tag2,tag3');		// Create's 3 new tags and maps them to the relative id 
+                                                      //  of 100 with a type of img (Image).
 </code>
 </pre>
 

@@ -98,8 +98,8 @@ $tagEngine->getTags(100, 'img');   // Gets all tags that are mapped to relative 
 <p>Removes all tag maps for the given relative id and type. Also removes the tag if it is no longer mapped to any other entity.</p>
 <pre>
 <code>
-$tagEngine->cleanTags(100, 'img');   // Removes all tag maps to relative id 100 of type 'img' (Image) and deletes the tags that were 
-                                     //  mapped to it (tag1,tag2,tag3) since they are no longer in use.
+$tagEngine->cleanTags(100, 'img');   // Removes all tag maps to relative id 100 of type 'img' (Image) and deletes the tags
+                                     // that weremapped to it (tag1,tag2,tag3) since they are no longer in use.
 </code>
 </pre>
 
@@ -108,6 +108,6 @@ $tagEngine->cleanTags(100, 'img');   // Removes all tag maps to relative id 100 
 <p>Manualy remove one tag map with the given parameters.</p>
 <pre>
 <code>
-$tagEngine->removeTagMap(100, 'img', 1);   // Remove the tag map to relative id 100 of type 'img' (Image) where the tag id is 1
+$tagEngine->removeTagMap(100, 'img', 1); // Remove the tag map to relative id 100 of type 'img' (Image) where the tag id is 1
 </code>
 </pre>

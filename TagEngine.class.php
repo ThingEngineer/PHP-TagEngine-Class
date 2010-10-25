@@ -92,13 +92,10 @@ class TagEngine
 		$this->db->where('name',trim($name));
 		$result = $this->db->query("SELECT tagId FROM $this->tableTags",1);
 		
-		if (!empty($result))
-		{
+		if (!empty($result)) {
 			$tagId = $result[0]['tagId'];
 			return $tagId;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -130,13 +127,10 @@ class TagEngine
 		$this->db->where('name',trim($type));
 		$result = $this->db->query("SELECT typeId FROM $this->tableTagTypes",1);
 		
-		if (!empty($result))
-		{
+		if (!empty($result)) {
 			$tagId = $result[0]['typeId'];
 			return $tagId;
-		}
-		else
-		{
+		} else {
 			trigger_error('Invalid tag type: "'.$type.'"', E_USER_ERROR);
 		}
 	}
@@ -159,8 +153,7 @@ class TagEngine
 		$this->db->where('typeId', $typeId);
 		$this->db->where('relId', $relId);
 		$result = $this->db->query("SELECT tagId FROM $this->tableTagMaps");
-		foreach($result as $row)
-		{
+		foreach($result as $row) {
 			array_push($tagsArr,$this->getTagName($row['tagId']));
 		}
 		return $tagsArr;
@@ -201,11 +194,9 @@ class TagEngine
 		$typeId = $this->getTagTypeId($type);
 		
 		$i = 0;
-		foreach ($tagsArr as $tag)
-		{
+		foreach ($tagsArr as $tag) {
 			$tag = trim($tag);
-			if (strlen($tag) >= $this->_tagLen)							// Tag must be at least X characters.
-			{
+			if (strlen($tag) >= $this->_tagLen)	{						// Tag must be at least X characters.
 				$tagId = $this->getTagId($tag);							// If the tag exists get its ID.
 				if (!$tagId) $tagId = $this->insertTag($tag);			// If not, create the tag and get the new id.
 				array_push($tagIds, $tagId);
@@ -249,16 +240,13 @@ class TagEngine
 		$this->db->where('typeId', $typeId);
 		$this->db->where('tagId', $tagId);
 		$result = $this->db->query("SELECT id FROM $this->tableTagMaps",1);		// Check for existing map.
-		if (empty($result))
-		{
+		if (empty($result)) {
 			$insertData = array(
 				'relId'  => $relId,
 				'typeId' => $typeId,
 				'tagId'  => $tagId);
 			$result = $this->db->insert($this->tableTagMaps, $insertData);		// Add new map.
-		}
-		else
-		{
+		} else {
 			$result = $result[0]['id'];		// Get the id of existing the map.
 		}
 		return $result;
@@ -275,7 +263,7 @@ class TagEngine
 	public function cleanTags($relId, $type)
 	{
 		$tagsArr = $this->getTags($relId, $type);
-		foreach($tagsArr as $tag){							// Loop through each tag mapped to this entity and remove the mapping.
+		foreach($tagsArr as $tag) {							// Loop through each tag mapped to this entity and remove the mapping.
 			$tagId = $this->getTagId($tag);
 			$this->removeTagMap($relId, $type, $tagId);
 		}
@@ -301,8 +289,7 @@ class TagEngine
 		
 		$this->db->where('tagId', $tagId);
 		$results = $this->db->query("SELECT id FROM $this->tableTagMaps");
-		if (empty($results))							// If the tag is no longer in use, delete it as well.
-		{
+		if (empty($results))	{						// If the tag is no longer in use, delete it as well.
 			$this->removeTag($tagId);
 		}
 	}

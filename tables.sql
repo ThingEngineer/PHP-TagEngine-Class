@@ -11,7 +11,7 @@ CREATE TABLE `sysTagMaps` (
   PRIMARY KEY (`id`),
   KEY `relId` (`relId`),
   KEY `tagId` (`tagId`),
-  KEY `typeId` (`typeId`) USING BTREE
+  KEY `typeId` (`typeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

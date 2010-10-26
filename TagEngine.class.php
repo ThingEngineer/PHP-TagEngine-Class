@@ -45,10 +45,9 @@ class TagEngine
 	/**
 	 * Initialize TagEngine - Load database instance
 	 */
-	public function __construct($db)
+	public function __construct()
 	{
-		$this->db = $db;
-		//$this->db = MySqliDb::getInstance();		// Alternate method of retrieving the db instance.
+		$this->db = MySqliDb::getInstance();
 	}
 	
 	/**

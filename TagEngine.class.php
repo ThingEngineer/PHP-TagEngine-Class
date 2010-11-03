@@ -135,13 +135,13 @@ class TagEngine
 	}
 
 	/**
-	 * Get the tags for an entity of the given relative id and type.
+	 * Get the tagId/tags for an entity of the given relative id and type.
 	 * 
 	 * @uses TagEngine->getTags(relId, type)
 	 *
 	 * @param integer $relId The id of the entity being searched.
 	 * @param string $type The 3 character tag type name being searched. (Not to be confused with the longName.)
-	 * @return array Returns a 0 indexed array of string containing the tags.
+	 * @return array Returns an array of string containing the tags where the key is the tagId and the data is the tag name.
 	 */
 	public function getTags($relId, $type)
 	{
@@ -153,7 +153,27 @@ class TagEngine
 		$this->db->where('relId', $relId);
 		$result = $this->db->query("SELECT tagId FROM $this->tableTagMaps");
 		foreach($result as $row) {
-			array_push($tagsArr,$this->getTagName($row['tagId']));
+			$tagsArr[$row['tagId']] = htmlentities(stripslashes($this->getTagName($row['tagId'])));
+			//array_push($tagsArr,$this->getTagName($row['tagId']));
+		}
+		return $tagsArr;
+	}
+	
+	/**
+	 * Get all tagId/tags.
+	 * 
+	 * @uses TagEngine->getAllTags()
+	 *
+	 * @return array Returns an array of strings containing the tags where the key is the tagId and the data is the tag name.
+	 */
+	public function getAllTags()
+	{
+		$tagsArr = array();	// Temporary tags array.
+		
+		$result = $this->db->get($this->tableTagMaps);
+		foreach($result as $row) {
+			$tagsArr[$row['tagId']] = $this->getTagName($row['tagId']);
+			//array_push($tagsArr,$this->getTagName($row['tagId']));
 		}
 		return $tagsArr;
 	}
@@ -275,7 +295,7 @@ class TagEngine
 	 *
 	 * @param integer $relId The id of the entity map being removed.
 	 * @param integer $type The 3 character string representing the the type of tag being removed.
-	 * @param integer $tagId The id of the tag being removed.
+	 * @param integer $tagId The id of the tag being unmapped.
 	 */
 	public function removeTagMap($relId, $type, $tagId)
 	{
@@ -284,7 +304,7 @@ class TagEngine
 		$this->db->where('relId', $relId);
 		$this->db->where('typeId', $typeId);
 		$this->db->where('tagId', $tagId);
-		$this->db->delete($this->tableTagMaps);			// Remove the tag map.
+		$this->db->delete($this->tableTagMaps, 1);			// Remove the tag map.
 		
 		$this->db->where('tagId', $tagId);
 		$results = $this->db->query("SELECT id FROM $this->tableTagMaps");
@@ -303,7 +323,7 @@ class TagEngine
 	protected function removeTag($tagId)
 	{
 		$this->db->where('tagId', $tagId);
-		$this->db->delete($this->tableTags);
+		$this->db->delete($this->tableTags, 1);
 	}
 
 } // END class
